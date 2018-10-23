@@ -8,7 +8,7 @@ namespace Warehouse.Data
 {
 	public interface IWarehouseRepo
 	{
-		Order GetOrderById(string orderId);
+		Order GetOrderById(int orderId);
 		IEnumerable<Order> GetOrdersByProductId(int productId);
 		IEnumerable<Order> GetUnProcessedOrders();
 		Order UpdateOrder(Order order, Order orderData);
@@ -24,39 +24,109 @@ namespace Warehouse.Data
 			_db = db;
 		}
 
-		public Order GetOrderById(string orderId)
+		public Order GetOrderById(int orderId)
 		{
-			try
+			return new Order
 			{
-				Order order = _db.QueryFirstOrDefault<Order>(@" 
-					SELECT * FROM orders WHERE id = @orderId
-					", new { id = orderId });
-				return order;
-			}
-			catch
-			{
-				return null;
-			}
+				Id = orderId,
+				Title = $"My Order {orderId}",
+				Description = "Order Description",
+				Processed = false,
+				ProductId = orderId
+			};
 				
 		}
 
-		public IEnumerable<Order> GetOrdersByProductId(int productId)
+		public List<Order> GetOrdersByProductId(int productId)
 		{
-			return _db.Query<Order>(@"
-				SELECT
-					o.id,
-					o.title,
-					o.description,
-					o.processed,
-					o.productId
-				FROM orders o
-				WHERE id = @productId
-				", new { id = productId });
+			List<Order> orders = new List<Order>();
+			orders.Add(new Order
+			{
+				Id = 1,
+				Title = "My Order 1",
+				Description = "Order Description",
+				Processed = false,
+				ProductId = productId
+			});
+			orders.Add(new Order
+			{
+				Id = 2,
+				Title = "My Order 2",
+				Description = "Order Description",
+				Processed = true,
+				ProductId = productId
+			});
+			orders.Add(new Order
+			{
+				Id = 3,
+				Title = "My Order 3",
+				Description = "Order Description",
+				Processed = false,
+				ProductId = productId
+			});
+			orders.Add(new Order
+			{
+				Id = 4,
+				Title = "My Order 4",
+				Description = "Order Description",
+				Processed = false,
+				ProductId = productId
+			});
+			orders.Add(new Order
+			{
+				Id = 5,
+				Title = "My Order 5",
+				Description = "Order Description",
+				Processed = true,
+				ProductId = productId
+			});
+			return orders;
 		}
 
-		public IEnumerable<Order> GetUnProcessedOrders()
+		public List<Order> GetUnProcessedOrders()
 		{
-			return _db.Query<Order>("SELECT * FROM orders WHERE processed = true");
+			List<Order> orders = new List<Order>();
+			orders.Add(new Order
+			{
+				Id = 1,
+				Title = "My Order 1",
+				Description = "Order Description",
+				Processed = false,
+				ProductId = 2345
+			});
+			orders.Add(new Order
+			{
+				Id = 2,
+				Title = "My Order 2",
+				Description = "Order Description",
+				Processed = false,
+				ProductId = 3525
+			});
+			orders.Add(new Order
+			{
+				Id = 3,
+				Title = "My Order 3",
+				Description = "Order Description",
+				Processed = false,
+				ProductId = 1325
+			});
+			orders.Add(new Order
+			{
+				Id = 4,
+				Title = "My Order 4",
+				Description = "Order Description",
+				Processed = false,
+				ProductId = 2356
+			});
+			orders.Add(new Order
+			{
+				Id = 5,
+				Title = "My Order 5",
+				Description = "Order Description",
+				Processed = false,
+				ProductId = 6342
+			});
+			return orders;
 		}
 
 		public Order UpdateOrder(Order order, Order orderData)

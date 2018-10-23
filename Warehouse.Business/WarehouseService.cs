@@ -14,7 +14,7 @@ namespace Warehouse.Business
 			_warehouseRepo = warehouseRepo;
 		}
 
-		public Order GetOrderById(string orderId)
+		public Order GetOrderById(int orderId)
 		{
 			try
 			{

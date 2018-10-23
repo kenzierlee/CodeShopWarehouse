@@ -36,7 +36,7 @@ namespace Warehouse.Web
 
 
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
+			
 			services.AddTransient<WarehouseService>();
 			services.AddTransient<IWarehouseRepo, WarehouseRepo>();
 			services.AddTransient<IDbConnection>(x => null);
@@ -52,14 +52,10 @@ namespace Warehouse.Web
 			else
 			{
 				app.UseExceptionHandler("/Home/Error");
-				app.UseHsts();
 			}
-
-			app.UseHttpsRedirection();
 			app.UseStaticFiles();
 			app.UseCookiePolicy();
-
-			app.UseMvc(routes =>
+			app.UseMvc(routes => 
 			{
 				routes.MapRoute(
 					name: "default",
