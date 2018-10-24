@@ -16,6 +16,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Warehouse.Business.Test", "Warehouse.Business.Test", "{1A670933-2FBC-4E24-881E-DEF2239FEECF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Warehouse.Business.Test", "WarehouseServiceTests\Warehouse.Business.Test.csproj", "{5680F0DB-56E5-4C24-9B95-F33750CB7708}"
+	ProjectSection(ProjectDependencies) = postProject
+		{40A3843B-3CD6-4498-869D-CC110A24C2E9} = {40A3843B-3CD6-4498-869D-CC110A24C2E9}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

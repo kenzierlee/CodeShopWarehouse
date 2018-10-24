@@ -11,6 +11,12 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.8.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="1.3.2" />
     <PackageReference Include="MSTest.TestFramework" Version="1.3.2" />
+    <PackageReference Include="NSubstitute" Version="3.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Warehouse.Business\Warehouse.Business.csproj" />
+    <ProjectReference Include="..\Warehouse.Data\Warehouse.Data.csproj" />
   </ItemGroup>
 
 </Project>

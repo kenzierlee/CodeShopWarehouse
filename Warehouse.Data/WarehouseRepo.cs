@@ -9,9 +9,9 @@ namespace Warehouse.Data
 	public interface IWarehouseRepo
 	{
 		Order GetOrderById(int orderId);
-		IEnumerable<Order> GetOrdersByProductId(int productId);
-		IEnumerable<Order> GetUnProcessedOrders();
-		Order UpdateOrder(Order order, Order orderData);
+		List<Order> GetOrdersByProductId(int productId);
+		List<Order> GetUnProcessedOrders();
+		Order UpdateOrder(Order order);
 		Order CreateOrder(Order order);
 	}
 
@@ -129,48 +129,28 @@ namespace Warehouse.Data
 			return orders;
 		}
 
-		public Order UpdateOrder(Order order, Order orderData)
+		public Order UpdateOrder(Order order)
 		{
-			var updatedOrder = _db.Execute(@" 
-				UPDATE orders SET
-					title = @Title,
-					description = @Description,
-					processed = @Processed,
-					productId = @ProductId
-				WHERE id = @Id", orderData);
-
-			if (updatedOrder > 0)
+			return new Order
 			{
-				return order;
-			}
-			else
-			{
-				return null;
-			}
-		}
-
-		public Order CreateOrder(Order order)
-		{
-			Order newOrder = new Order
-			{
-				Id = Guid.NewGuid().ToString(),
+				Id = order.Id,
 				Title = order.Title,
 				Description = order.Description,
 				Processed = order.Processed,
 				ProductId = order.ProductId
 			};
-			var successful = _db.ExecuteAsync(@"
-				INSERT INTO orders
-				(id, title, description, processed, productId)
-				VALUES (@id, @Title, @Description, @Processed, @ProductId);
-			", newOrder);
+		}
 
-			if (successful.Result == 1)
+		public Order CreateOrder(Order order)
+		{
+			return new Order
 			{
-				return newOrder;
-			}
-
-			return null;
+				Id = order.Id,
+				Title = order.Title,
+				Description = order.Description,
+				Processed = order.Processed,
+				ProductId = order.ProductId
+			};
 		}
 	}
 }

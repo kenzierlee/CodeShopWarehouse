@@ -22,7 +22,7 @@ namespace Warehouse.Web.Controllers
 		}
 
 		[HttpGet("{orderId}")]
-		public IActionResult GetOrderById(string orderId)
+		public IActionResult GetOrderById(int orderId)
 		{
 			return Ok(_warehouseService.GetOrderById(orderId));
 		}

@@ -16,74 +16,52 @@ namespace Warehouse.Business
 
 		public Order GetOrderById(int orderId)
 		{
-			try
-			{
-				return _warehouseRepo.GetOrderById(orderId);
-			}
-			catch
-			{
-				return null;
-			}
+			return _warehouseRepo.GetOrderById(orderId);
+			
 		}
 
-		public IEnumerable<Order> GetUnProcessedOrders()
+		public List<Order> GetUnProcessedOrders()
 		{
-			try
-			{
-				return _warehouseRepo.GetUnProcessedOrders();
-			}
-			catch
-			{
-				return null;
-			}
+			return _warehouseRepo.GetUnProcessedOrders();
 		}
 
-		public IEnumerable<Order> GetOrdersByProductId(int productId)
+		public List<Order> GetOrdersByProductId(int productId)
 		{
-			try
-			{
-				return _warehouseRepo.GetOrdersByProductId(productId);
-			}
-			catch
-			{
-				return null;
-			}
+			return _warehouseRepo.GetOrdersByProductId(productId);
 		}
 
 		public Order CreateOrder(Order order)
 		{
-			try
-			{
-				return _warehouseRepo.CreateOrder(order);
-			}
-			catch
-			{
-				return null;
-			}
+			return _warehouseRepo.CreateOrder(order);
 		}
 
 		public Order UpdateOrder(Order order)
 		{
-			try
+			Order currentOrder = GetOrderById(order.Id);
+			if (currentOrder == null)
 			{
-				Order currentOrder = GetOrderById(order.Id);
-				if (currentOrder == null)
-				{
-					throw new Exception("Order not found");
-				}
-				else if (currentOrder.Processed == true)
-				{
-					throw new Exception("Order has already been processed");
-				}
-				else
-				{
-					return _warehouseRepo.UpdateOrder(currentOrder, order);
-				}
+				throw new Exception("Order not found");
 			}
-			catch
+			else if (currentOrder.Processed == true)
 			{
-				return null;
+				throw new Exception("Order has already been processed");
 			}
+			else
+			{
+				return _warehouseRepo.UpdateOrder(currentOrder);
+			}
+		}
+
+		public Order ProcessOrder(Order order)
+		{
+			Order databaseOrder = _warehouseRepo.GetOrderById(order.Id);
+
+			if (order.Processed == true && databaseOrder.Processed == false)
+			{
+				return _warehouseRepo.UpdateOrder(order);
+			}
+
+			return null;
 		}
 	}
 }
